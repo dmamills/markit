@@ -1,35 +1,44 @@
 // Load native UI library.
 var gui = require('nw.gui');
 
-var option = {
+function logFailed(msg) {
+	console.log(msg);
+}
+
+var quitShortcut = {
   key : "Ctrl+Q",
   active : function() {
 	console.log('quit command!');
 	gui.App.quit();
   },
-  failed : function(msg) {
-    // :(, fail to register the |key| or couldn't parse the |key|.
-    console.log(msg);
-  }
+  failed : logFailed
 };
 
-// Create a shortcut with |option|.
-var shortcut = new gui.Shortcut(option);
+var copyShortcut = {
+	key: "Ctrl+C",
+	active: function() {
+		console.log('copy!');
+	},
+	failed: logFailed
+}
 
-// Register global desktop shortcut, which can work without focus.
-gui.App.registerGlobalHotKey(shortcut);
+var pasteShortcut = {
+	key: "Ctrl+V",
+	active: function() {
+		console.log('paste!');
+	},
+	failed: logFailed
+}
 
-// If register |shortcut| successfully and user struck "Ctrl+Shift+A", |shortcut|
-// will get an "active" event.
+var shortcuts = [
+	new gui.Shortcut(quitShortcut),
+	new gui.Shortcut(copyShortcut),
+	new gui.Shortcut(pasteShortcut)
+];
 
-// You can also add listener to shortcut's active and failed event.
-/*shortcut.on('active', function() {
-  console.log("Global desktop keyboard shortcut: " + this.key + " active."); 
-});
 
-shortcut.on('failed', function(msg) {
-  console.log(msg);
-});
-*/
-// Unregister the global desktop shortcut.
-//gui.App.unregisterGlobalHotKey(shortcut);
+for(var i =0; i < shortcuts.length;i++) {
+	gui.App.registerGlobalHotKey(shortcuts[i]);
+}
+
+

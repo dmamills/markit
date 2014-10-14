@@ -6,3 +6,4 @@ resources/*
 tmp/*
 dist/*
 app/*.md
+app/build/*

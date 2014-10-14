@@ -1,9 +1,19 @@
-<div class="row">
-	<div class="col-md-6 col-lg-6 col-sm-6 ">
-			<ui-codemirror ng-model="contents" ui-codemirror-opts="editorOptions"></ui-codemirror>
-			<div> Currently Editing: {{$scope.filename}}</div>
-	</div>
-	<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
-		<div class="output-wrap" ng-bind-html="output()"></div>
-	</div>
-</div>
+<tabset>
+	<tab ng-repeat="workspace in workspaces" heading="{{workspace.filename}}" ng-click="selectWorkspace(workspace)">
+		<tab-heading>
+		{{workspace.filename | markitFilename}} <button ng-click="close(workspace)" class="btn btn-xs btn-link"><i class="fa fa-times"></i></button>
+		</tab-heading>
+		<div class="row">
+			<div class="col-md-6 col-lg-6 col-sm-6 ">
+						<ui-codemirror ng-model="workspace.content" ui-codemirror-opts="editorOptions" ui-refresh="workspaces"></ui-codemirror>
+			</div>
+			<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+				<div class="output-wrap" ng-bind-html="output(workspace.content)"></div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12"> Currently Editing: {{workspace.filename}}</div>
+		</div>
+	</tab>
+	
+</tabset>
