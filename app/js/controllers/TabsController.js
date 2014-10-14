@@ -5,17 +5,6 @@ angular.module('markit.controllers')
 	$scope.workspaces = $rootScope.workspaces;
 	$scope.previousContent = '';
 
-	$scope.editorOptions = {
-		lineWrapping:true,
-		theme:'monokai',
-		mode:'markdown'
-	};
-
-	$scope.output = function(content) {
-		if(content === undefined) return '';
-		return marked(content);
-	};
-
 	$scope.selectWorkspace = function(workspace) {
 		$scope.workspace = workspace;
 		$scope.previousContent = workspace.content;

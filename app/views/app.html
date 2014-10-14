@@ -1,11 +1,12 @@
 <tabset>
-	<tab ng-repeat="workspace in workspaces" heading="{{workspace.filename}}" ng-click="selectWorkspace(workspace)">
+	<tab ng-repeat="workspace in workspaces" heading="{{workspace.filename}}" ng-click="selectWorkspace(workspace)" active="workspace.active">
 		<tab-heading>
 		{{workspace.filename | markitFilename}} <button ng-click="close(workspace)" class="btn btn-xs btn-link"><i class="fa fa-times"></i></button>
 		</tab-heading>
-		<div class="row">
+
+		<div ng-controller="EditorController" ng-init="workspace = workspace" class="row">
 			<div class="col-md-6 col-lg-6 col-sm-6 ">
-						<ui-codemirror ng-model="workspace.content" ui-codemirror-opts="editorOptions" ui-refresh="workspaces"></ui-codemirror>
+						<ui-codemirror ng-model="workspace.content" ui-codemirror-opts="editorOptions"></ui-codemirror>
 			</div>
 			<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
 				<div class="output-wrap" ng-bind-html="output(workspace.content)"></div>

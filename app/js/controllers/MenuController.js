@@ -6,11 +6,17 @@ angular.module('markit.controllers',[])
 		$scope.$apply();
 	};
 
+	function getActiveWorkspace() {
+		var workspaces = $rootScope.workspaces;
+		for(var i=0; i < workspaces.length;i++) {
+			if(workspaces[i].active) return workspaces[i];
+		}
+	};
+
 	$scope.new = function() {
 		var workspace = {
 			filename:'',
-			content:'',
-			changed:false,
+			content:''
 		};
 
 		$rootScope.workspaces.push(workspace);
@@ -24,8 +30,7 @@ angular.module('markit.controllers',[])
 				if(err)throw err;
 				var workspace = {
 					filename:filename,
-					content:data.toString(),
-					changed:false
+					content:data.toString()
 				};
 
 				$rootScope.workspaces.push(workspace);
@@ -36,31 +41,20 @@ angular.module('markit.controllers',[])
 
 	$scope.save = function() {
 		
-		var contents = $scope.$$childHead.contents;
-		if($rootScope.filename) {
-			fs.writeFile($rootScope.filename,contents,function(err) {
+		var workspace = getActiveWorkspace();
+		if(workspace.filename) {
+			fs.writeFile(workspace.filename,workspace.content,function(err) {
 				if(err) throw err;
-				alert('saved file as ' + $rootScope.filename);
+				alert('saved file as ' + workspace.filename);
 			});	
 		} else {
 			fileDialog.saveAs(function(filename) {
-				fs.writeFile(filename,contents,function(err) {
+				workspace.filename = filename;
+				fs.writeFile(filename,workspace.content,function(err) {
 					if(err) throw err;
 					alert('saved as ' + filename);
 				});
 			},false,'text/x-markdown');
 		} 
-	};
-
-	$scope.saveAs = function() {
-		var filename = $rootScope.filename || false;
-		var contents = $scope.$$childHead.contents;
-
-		fileDialog.saveAs(function(filename) {
-				fs.writeFile(filename,contents,function(err) {
-					if(err) throw err;
-					alert('saved as ' + filename);
-				});
-			},filename,'text/x-markdown');
 	};
 })

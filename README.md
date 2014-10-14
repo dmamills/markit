@@ -1,6 +1,6 @@
 # Mark It
 
-Another realtime markdown editor. Written with node-webkit and angularjs
+Yet another markdown editor. Written using node-webkit and angularjs
 
 ## Setup
 ```

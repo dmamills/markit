@@ -3,6 +3,7 @@ angular.module('markit.filters',[])
 	return function(input) {
 		if(!input) return '';
 		if(input === '') return '[no name]';
-		return input;
+		var i = input.lastIndexOf('/');
+		return input.substr(i+1);
 	};
 })

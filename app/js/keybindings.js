@@ -17,6 +17,7 @@ var quitShortcut = {
 var copyShortcut = {
 	key: "Ctrl+C",
 	active: function() {
+		var clipboard = gui.Clipboard.get();
 		console.log('copy!');
 	},
 	failed: logFailed
