@@ -24,6 +24,34 @@ angular.module('markit',['ngSanitize','ui.bootstrap','ui.router','ui.codemirror'
 		},false,'text/x-markdown');
 	};
 
+	$scope.save = function() {
+		var contents = $scope.$$childHead.contents;
+		if($rootScope.filename) {
+			fs.writeFile($rootScope.filename,contents,function(err) {
+				if(err) throw err;
+				alert('saved file as ' + $rootScope.filename);
+			});	
+		} else {
+			fileDialog.saveAs(function(filename) {
+				fs.writeFile(filename,contents,function(err) {
+					if(err) throw err;
+					alert('saved as ' + filename);
+				});
+			},false,'text/x-markdown');
+		} 
+	};
+
+	$scope.saveAs = function() {
+		var filename = $rootScope.filename || false;
+		var contents = $scope.$$childHead.contents;
+
+		fileDialog.saveAs(function(filename) {
+				fs.writeFile(filename,contents,function(err) {
+					if(err) throw err;
+					alert('saved as ' + filename);
+				});
+			},filename,'text/x-markdown');
+	};
 })
 .controller('TestController',function($scope,$rootScope,fileDialog) {
 
@@ -49,6 +77,7 @@ angular.module('markit',['ngSanitize','ui.bootstrap','ui.router','ui.codemirror'
 		if($scope.contents === undefined) return '';
 		return marked($scope.contents);
 	};
+
 	$scope.open = function() {
 		fileDialog.openFile(function(filename) {
 			$scope.filename = filename;
