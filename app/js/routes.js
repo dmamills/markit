@@ -9,7 +9,7 @@ angular.module('markit')
 	.state('app.main',{
 		url:'/main',
 		templateUrl:'app.html',
-		controller:'TestController'
+		controller:'TabsController'
 	});
 
 	$urlRouterProvider.otherwise('/app/main');

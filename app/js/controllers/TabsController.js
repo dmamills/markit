@@ -1,5 +1,5 @@
 angular.module('markit.controllers')
-.controller('TestController',function($scope,$rootScope,fileDialog) {
+.controller('TabsController',function($scope,$rootScope,fileDialog) {
 
 
 	$scope.workspaces = $rootScope.workspaces;
