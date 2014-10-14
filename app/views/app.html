@@ -1,0 +1,9 @@
+<div class="row">
+	<div class="col-md-6 col-lg-6 col-sm-6">
+			<ui-codemirror ng-model="contents" ui-codemirror-opts="editorOptions"></ui-codemirror>
+			<div> {{$scope.filename}}</div>
+	</div>
+	<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
+		<div ng-bind-html="output()"></div>
+	</div>
+</div>
