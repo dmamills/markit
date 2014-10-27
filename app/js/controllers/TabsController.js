@@ -29,6 +29,8 @@ angular.module('markit.controllers')
 				} else {
 					fs.writeFile(workspace.filename,workspace.content,afterSave.bind(workspace));
 				}
+			} else {
+				$scope.workspaces.splice($scope.workspaces.indexOf(workspace),1);
 			}
 		} else {
 			$scope.workspaces.splice($scope.workspaces.indexOf(workspace),1);
