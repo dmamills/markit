@@ -1,6 +1,7 @@
-# Mark It
+# markit
 
-Yet another markdown editor. Written using node-webkit and angularjs
+Yet another markdown editor. 
+Little bit of fun experimenting with node-webkit and angularjs
 
 ## Setup
 ```
@@ -15,4 +16,6 @@ gulp watch
 gulp build-osx
 ```
 
-Run like any other node-webkit app
+To run `build-osx` you need to create a folder named `dist` in the root directory, with a copy of the webkit binary renamed to `markit.app` inside it.
+
+<img src="http://yomills.com/misc/markit-demo.gif" width="600px"/>
