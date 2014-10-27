@@ -1,1 +1,1 @@
-{	"name":"markit",	"main":"views/index.html",	"version":"0.0.1",	"single-instance":true,	"window":{		"title":"markit",		"width":1200,		"height":650,		"min_width":1200,		"min_height":650,		"toolbar":false,		"resizable":false	},	"chromium-args":"--child-clean-exit"}
+{"name":"markit","main":"views/index.html","version":"0.0.1","single-instance":true,"window":{"title":"markit","width":1200,"height":650,"min_width":1200,"min_height":650,"toolbar":false,"resizable":false},"chromium-args":"--child-clean-exit"}

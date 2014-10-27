@@ -21,6 +21,8 @@ angular.module('markit.controllers',[])
 
 		$rootScope.workspaces.push(workspace);
 		$state.transitionTo($state.current,{},{reload:true,notify:true});
+		$scope.$$childHead.workspaces[$scope.$$childHead.workspaces.length-1].active = true;
+		$scope.$$childHead.selectWorkspace($rootScope.workspaces[$rootScope.workspaces.length-1]);
 	}
 
 	$scope.open = function() {
@@ -35,18 +37,20 @@ angular.module('markit.controllers',[])
 
 				$rootScope.workspaces.push(workspace);
 				$state.transitionTo($state.current,{},{reload:true,notify:true});
+				$scope.$$childHead.workspaces[$scope.$$childHead.workspaces.length-1].active = true;
+				$scope.$$childHead.selectWorkspace($rootScope.workspaces[$rootScope.workspaces.length-1]);
 			});
 		},false,'text/x-markdown');
 	};
 
 	$scope.save = function() {
-		
+
 		var workspace = getActiveWorkspace();
 		if(workspace.filename) {
 			fs.writeFile(workspace.filename,workspace.content,function(err) {
 				if(err) throw err;
 				alert('saved file as ' + workspace.filename);
-			});	
+			});
 		} else {
 			fileDialog.saveAs(function(filename) {
 				workspace.filename = filename;
@@ -55,6 +59,6 @@ angular.module('markit.controllers',[])
 					alert('saved as ' + filename);
 				});
 			},false,'text/x-markdown');
-		} 
+		}
 	};
 })

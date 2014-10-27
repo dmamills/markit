@@ -6,7 +6,7 @@
 
 		<div ng-controller="EditorController" ng-init="workspace = workspace" class="row">
 			<div class="col-md-6 col-lg-6 col-sm-6 ">
-						<ui-codemirror ng-model="workspace.content" ui-codemirror-opts="editorOptions"></ui-codemirror>
+						<ui-codemirror ng-model="workspace.content" ui-codemirror-opts="editorOptions" ui-refresh="workspace.active"></ui-codemirror>
 			</div>
 			<div class="col-md-6 col-lg-6 col-sm-6 col-xs-6">
 				<div class="output-wrap" ng-bind-html="output(workspace.content)"></div>

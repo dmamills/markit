@@ -20,7 +20,7 @@ gulp.task('build-osx',shell.task([
 ]));
 
 gulp.task('watch',function() {
-	gulp.watch(paths.js,['ng-concat']);
+	gulp.watch(paths.js,['ng-concat','build-osx']);
 });
 
-gulp.task('default',['ng-concat']);
+gulp.task('default',['ng-concat','build-osx']);

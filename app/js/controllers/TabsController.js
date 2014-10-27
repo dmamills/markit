@@ -12,9 +12,10 @@ angular.module('markit.controllers')
 
 	function afterSave(err) {
 		if(err) throw err;
-		$rootScope.workspaces.splice($scope.workspaces.indexOf(workspace),1);
+		$rootScope.workspaces.splice($scope.workspaces.indexOf(this),1);
+		$scope.$apply();
 	};
-
+	
 	$scope.close = function(workspace) {
 		//check for changes
 		if(workspace.content !== $scope.previousContent) {
@@ -23,14 +24,14 @@ angular.module('markit.controllers')
 				if(workspace.filename === '') {
 					fileDialog.saveAs(function(filename) {
 						workspace.filename = filename;
-						fs.writeFile(workspace.filename,workspace.content,afterSave);
+						fs.writeFile(workspace.filename,workspace.content,afterSave.bind(workspace));
 					},false,'text/x-markdown');
 				} else {
-					fs.writeFile(workspace.filename,workspace.content,afterSave);
+					fs.writeFile(workspace.filename,workspace.content,afterSave.bind(workspace));
 				}
 			}
 		} else {
-			$rootScope.workspaces.splice($scope.workspaces.indexOf(workspace),1);
+			$scope.workspaces.splice($scope.workspaces.indexOf(workspace),1);
 		}
 	};
 
