@@ -5,9 +5,11 @@ angular.module('markit.controllers',[])
 	function transitionToWorkspace(workspace) {
 		
 		$rootScope.workspaces.push(workspace);
+		$scope.$broadcast('update file',workspace.filename);
 		$state.transitionTo($state.current,{},{reload:true,notify:true});
 		$scope.$$childHead.workspaces[$scope.$$childHead.workspaces.length-1].active = true;
 		$scope.$$childHead.selectWorkspace($rootScope.workspaces[$rootScope.workspaces.length-1]);
+
 
 	}
 
