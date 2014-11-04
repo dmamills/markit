@@ -1,10 +1,15 @@
 angular.module('markit.controllers',[])
-.controller('MenuController',function($rootScope,$scope,$state,fileDialog) {
+.controller('MenuController',function($rootScope,$scope,$state,$filter,fileDialog,WorkspaceService,ClipboardService) {
 
-	function setContents(err,data) {
-		$scope.contents = data.toString();
-		$scope.$apply();
-	};
+
+	function transitionToWorkspace(workspace) {
+		
+		$rootScope.workspaces.push(workspace);
+		$state.transitionTo($state.current,{},{reload:true,notify:true});
+		$scope.$$childHead.workspaces[$scope.$$childHead.workspaces.length-1].active = true;
+		$scope.$$childHead.selectWorkspace($rootScope.workspaces[$rootScope.workspaces.length-1]);
+
+	}
 
 	function getActiveWorkspace() {
 		var workspaces = $rootScope.workspaces;
@@ -14,31 +19,17 @@ angular.module('markit.controllers',[])
 	};
 
 	$scope.new = function() {
-		var workspace = {
-			filename:'',
-			content:''
-		};
 
-		$rootScope.workspaces.push(workspace);
-		$state.transitionTo($state.current,{},{reload:true,notify:true});
-		$scope.$$childHead.workspaces[$scope.$$childHead.workspaces.length-1].active = true;
-		$scope.$$childHead.selectWorkspace($rootScope.workspaces[$rootScope.workspaces.length-1]);
+		var workspace = WorkspaceService.create();
+		transitionToWorkspace(workspace);
 	}
 
 	$scope.open = function() {
+
 		fileDialog.openFile(function(filename) {	
 			
-			fs.readFile(filename,function(err,data) {
-				if(err)throw err;
-				var workspace = {
-					filename:filename,
-					content:data.toString()
-				};
-
-				$rootScope.workspaces.push(workspace);
-				$state.transitionTo($state.current,{},{reload:true,notify:true});
-				$scope.$$childHead.workspaces[$scope.$$childHead.workspaces.length-1].active = true;
-				$scope.$$childHead.selectWorkspace($rootScope.workspaces[$rootScope.workspaces.length-1]);
+			WorkspaceService.open(filename,function(err,workspace) {
+				transitionToWorkspace(workspace);
 			});
 		},false,'text/x-markdown');
 	};
@@ -47,18 +38,29 @@ angular.module('markit.controllers',[])
 
 		var workspace = getActiveWorkspace();
 		if(workspace.filename) {
-			fs.writeFile(workspace.filename,workspace.content,function(err) {
+			WorkspaceService.save(workspace,function(err) {
 				if(err) throw err;
 				alert('saved file as ' + workspace.filename);
 			});
 		} else {
-			fileDialog.saveAs(function(filename) {
-				workspace.filename = filename;
-				fs.writeFile(filename,workspace.content,function(err) {
-					if(err) throw err;
-					alert('saved as ' + filename);
-				});
-			},false,'text/x-markdown');
+			WorkspaceService.saveAs(workspace,function(err,workspace) {
+				if(err) throw err;
+				alert('saved as ' + filename);
+			});
 		}
+	};
+
+	$scope.copyHtml = function() {
+		var workspace = getActiveWorkspace();
+		if(workspace === null) {
+			console.log('No workspace active');
+			return;
+		}
+		var result = $filter('markitMarked')(workspace.content);
+		ClipboardService.set(result,'text');
+	};
+
+	$scope.exportHtml = function() {
+
 	};
 })

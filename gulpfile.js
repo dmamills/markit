@@ -4,7 +4,7 @@ var shell = require('gulp-shell');
 
 var js_root = './app/js/';
 var paths = {
-	js: ['keybindings.js','filters/*','controllers/MenuController.js','controllers/*','services/*','index.js','routes.js']
+	js: ['keybindings.js','filters/*','controllers/MenuController.js','controllers/*','services/WorkspaceService.js','services/*','index.js','routes.js']
 }
 
 paths.js = paths.js.map(function(el) { return js_root+el;});

@@ -1,7 +1,6 @@
 angular.module('markit.controllers')
 .controller('TabsController',function($scope,$rootScope,fileDialog) {
 
-
 	$scope.workspaces = $rootScope.workspaces;
 	$scope.previousContent = '';
 
@@ -15,7 +14,7 @@ angular.module('markit.controllers')
 		$rootScope.workspaces.splice($scope.workspaces.indexOf(this),1);
 		$scope.$apply();
 	};
-	
+
 	$scope.close = function(workspace) {
 		//check for changes
 		if(workspace.content !== $scope.previousContent) {
